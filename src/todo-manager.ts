@@ -48,7 +48,7 @@ export class TodoManager {
     let html =
       '<thead>' +
       '<th>title</th>' +
-      '<th>isCompleted</th>' +
+      '<th>completed</th>' +
       '<th>createdAt</th>' +
       '</thead>' +
       '<tbody>';
@@ -56,7 +56,7 @@ export class TodoManager {
       html +=
         '<tr>' +
         `<td>${todo.title}</td>` +
-        `<td>${todo.isCompleted}</td>` +
+        `<td>${todo.completed}</td>` +
         `<td>${todo.createdAt.toLocaleString()}</td>` +
         '</tr>';
     }
