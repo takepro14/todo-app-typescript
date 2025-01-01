@@ -1,15 +1,18 @@
-# 🚀 Welcome to your new awesome project!
+# TODO App
 
-This project has been created using **webpack-cli**, you can now run
+This is a simple TODO app using TypeScript.
 
-```
-npm run build
-```
+## Getting Started
 
-or
-
-```
-yarn build
+```sh
+docker compose build
+docker compose up
 ```
 
-to bundle your application
+## DB console
+
+```sh
+docker ps
+docker exec -it <container_id> sh
+psql -U postgres -d todoapp -h localhost
+```
