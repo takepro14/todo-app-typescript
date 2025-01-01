@@ -2,16 +2,21 @@ import { Todo } from './todo';
 
 export class TodoManager {
   private todos: Todo[] = [];
-  private currentId = 0;
+  private currentId: number;
 
-  private generateId(): number {
-    return ++this.currentId;
+  load(): void {
+    const savedTodos = JSON.parse(localStorage.getItem('todo'));
+    const savedCurrentId = localStorage.getItem('currentId');
+    this.todos = savedTodos ? savedTodos : [];
+    this.currentId = savedCurrentId ? Number(savedCurrentId) : 0;
   }
 
   create(title: string): Todo {
-    const todo = new Todo(this.generateId(), title);
-    localStorage.setItem(`todo-${this.currentId}`, JSON.stringify(todo));
-    this.todos.push(todo);
+    const newId = this.currentId + 1;
+    const todo = new Todo(newId, title);
+    this.todos.unshift(todo);
+    localStorage.setItem('todo', JSON.stringify(this.todos));
+    localStorage.setItem('currentId', String(newId));
     return todo;
   }
 
@@ -20,6 +25,12 @@ export class TodoManager {
     if (index === -1) return false;
     this.todos.splice(index, 1);
     return true;
+  }
+
+  clear(): void {
+    this.todos = [];
+    localStorage.removeItem('todo');
+    localStorage.removeItem('currentId');
   }
 
   find(id: number): Todo | undefined {
@@ -33,7 +44,23 @@ export class TodoManager {
     return true;
   }
 
-  list(): Todo[] {
-    return this.todos;
+  list(table: HTMLTableElement): void {
+    let html =
+      '<thead>' +
+      '<th>title</th>' +
+      '<th>isCompleted</th>' +
+      '<th>createdAt</th>' +
+      '</thead>' +
+      '<tbody>';
+    for (let todo of this.todos) {
+      html +=
+        '<tr>' +
+        `<td>${todo.title}</td>` +
+        `<td>${todo.isCompleted}</td>` +
+        `<td>${todo.createdAt.toLocaleString()}</td>` +
+        '</tr>';
+    }
+    html += '</tbody>';
+    table.innerHTML = html;
   }
 }
