@@ -43,6 +43,18 @@ export class TodoManager {
     return true;
   }
 
+  edit(id: number): void {
+    const index = this.todos.findIndex((t) => t.id === id);
+    const newTitle = prompt('Edit TODO title:', this.todos[index].title);
+    if (newTitle !== null && newTitle.trim() !== '') {
+      this.todos[index].title = newTitle.trim();
+      localStorage.setItem('todo', JSON.stringify(this.todos));
+      this.load();
+      this.list(document.querySelector('#table'));
+      alert('TODO updated successfully!');
+    }
+  }
+
   list(table: HTMLTableElement): void {
     let html =
       '<thead>' +
@@ -57,9 +69,20 @@ export class TodoManager {
         `<td>${todo.title}</td>` +
         `<td>${todo.completed}</td>` +
         `<td>${todo.createdAt.toLocaleString()}</td>` +
+        `<td><button class="edit-btn" data-id="${todo.id}">Edit</button></td>` +
         '</tr>';
     }
     html += '</tbody>';
     table.innerHTML = html;
+
+    table.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target.classList.contains('edit-btn')) {
+        const id = target.dataset.id;
+        if (id) {
+          this.edit(Number(id));
+        }
+      }
+    });
   }
 }
