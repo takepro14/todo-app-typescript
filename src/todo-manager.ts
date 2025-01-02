@@ -29,8 +29,7 @@ export class TodoManager {
 
   clear(): void {
     this.todos = [];
-    localStorage.removeItem('todo');
-    localStorage.removeItem('currentId');
+    localStorage.clear();
   }
 
   find(id: number): Todo | undefined {
