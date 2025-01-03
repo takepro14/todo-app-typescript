@@ -21,14 +21,17 @@ export class TodoManager {
   }
 
   delete(id: number): boolean {
-    const index = this.todos.findIndex((todo) => todo.id === id);
-    if (index === -1) return false;
-    this.todos.splice(index, 1);
-    localStorage.setItem('todo', JSON.stringify(this.todos));
-    this.load();
-    this.list(document.querySelector('#table'));
-    alert('TODO deleted successfully!');
-    return true;
+    const confirmed = confirm('Are you sure you want to delete this TODO?');
+    if (confirmed) {
+      const index = this.todos.findIndex((todo) => todo.id === id);
+      if (index === -1) return false;
+      this.todos.splice(index, 1);
+      localStorage.setItem('todo', JSON.stringify(this.todos));
+      this.load();
+      this.list(document.querySelector('#table'));
+      alert('TODO deleted successfully!');
+      return true;
+    }
   }
 
   clear(): void {
