@@ -67,7 +67,6 @@ export class TodoManager {
       '<thead>' +
       '<th>title</th>' +
       '<th>completed</th>' +
-      '<th>createdAt</th>' +
       '<th></th>' +
       '<th></th>' +
       '</thead>' +
@@ -77,7 +76,6 @@ export class TodoManager {
         '<tr>' +
         `<td>${todo.title}</td>` +
         `<td>${todo.completed}</td>` +
-        `<td>${todo.createdAt.toLocaleString()}</td>` +
         `<td><button class="edit-btn btn btn-light" data-id="${todo.id}">Edit</button></td>` +
         `<td><button class="delete-btn btn btn-warning" data-id="${todo.id}">Delete</button></td>` +
         '</tr>';
