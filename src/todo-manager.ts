@@ -24,6 +24,10 @@ export class TodoManager {
     const index = this.todos.findIndex((todo) => todo.id === id);
     if (index === -1) return false;
     this.todos.splice(index, 1);
+    localStorage.setItem('todo', JSON.stringify(this.todos));
+    this.load();
+    this.list(document.querySelector('#table'));
+    alert('TODO deleted successfully!');
     return true;
   }
 
@@ -62,6 +66,7 @@ export class TodoManager {
       '<th>completed</th>' +
       '<th>createdAt</th>' +
       '<th></th>' +
+      '<th></th>' +
       '</thead>' +
       '<tbody>';
     for (let todo of this.todos) {
@@ -71,10 +76,21 @@ export class TodoManager {
         `<td>${todo.completed}</td>` +
         `<td>${todo.createdAt.toLocaleString()}</td>` +
         `<td><button class="edit-btn btn btn-light" data-id="${todo.id}">Edit</button></td>` +
+        `<td><button class="delete-btn btn btn-warning" data-id="${todo.id}">Delete</button></td>` +
         '</tr>';
     }
     html += '</tbody>';
     table.innerHTML = html;
+
+    document.querySelectorAll('.delete-btn').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement;
+        const id = target.dataset.id;
+        if (id) {
+          this.delete(Number(id));
+        }
+      });
+    });
 
     document.querySelectorAll('.edit-btn').forEach((button) => {
       button.addEventListener('click', (event) => {
