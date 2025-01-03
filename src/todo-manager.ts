@@ -76,14 +76,14 @@ export class TodoManager {
     html += '</tbody>';
     table.innerHTML = html;
 
-    table.addEventListener('click', (event) => {
-      const target = event.target as HTMLElement;
-      if (target.classList.contains('edit-btn')) {
+    document.querySelectorAll('.edit-btn').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement;
         const id = target.dataset.id;
         if (id) {
           this.edit(Number(id));
         }
-      }
+      });
     });
   }
 }
