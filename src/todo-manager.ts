@@ -1,4 +1,3 @@
-import { warn } from 'console';
 import { Todo } from './todo';
 
 export class TodoManager {
