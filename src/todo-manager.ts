@@ -39,14 +39,12 @@ export class TodoManager {
     localStorage.clear();
   }
 
-  find(id: number): Todo | undefined {
-    return this.todos.find((todo) => todo.id === id);
-  }
-
-  toggleComplete(id: number): boolean {
-    const todo = this.find(id);
-    if (!todo) return false;
-    todo.toggleComplete();
+  complete(id: number): boolean {
+    const index = this.todos.findIndex((t) => t.id === id);
+    this.todos[index].completed = !this.todos[index].completed;
+    localStorage.setItem('todo', JSON.stringify(this.todos));
+    this.load();
+    this.list(document.querySelector('#table'));
     return true;
   }
 
@@ -74,7 +72,7 @@ export class TodoManager {
       html +=
         '<tr>' +
         `<td>${todo.title}</td>` +
-        `<td><input class="js-check form-check-input" type="checkbox" data-id="${todo.id}" checked="${todo.completed}"></button></td>` +
+        `<td><input class="js-check form-check-input" type="checkbox" data-id="${todo.id}" ${todo.completed ? 'checked' : ''}></button></td>` +
         `<td><button class="js-edit btn btn-light" data-id="${todo.id}">Edit</button></td>` +
         `<td><button class="js-delete btn btn-warning" data-id="${todo.id}">Delete</button></td>` +
         '</tr>';
@@ -99,6 +97,16 @@ export class TodoManager {
         const id = target.dataset.id;
         if (id) {
           this.edit(Number(id));
+        }
+      });
+    });
+
+    document.querySelectorAll('.js-check').forEach((checkbox) => {
+      checkbox.addEventListener('change', (event) => {
+        const target = event.target as HTMLElement;
+        const id = target.dataset.id;
+        if (id) {
+          this.complete(Number(id));
         }
       });
     });

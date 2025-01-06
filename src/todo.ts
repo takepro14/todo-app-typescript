@@ -8,8 +8,4 @@ export class Todo {
     this.title = title;
     this.completed = false;
   }
-
-  toggleComplete(): void {
-    this.completed = !this.completed;
-  }
 }
