@@ -1,3 +1,4 @@
+import { warn } from 'console';
 import { Todo } from './todo';
 
 export class TodoManager {
@@ -29,7 +30,6 @@ export class TodoManager {
       localStorage.setItem('todo', JSON.stringify(this.todos));
       this.load();
       this.list(document.querySelector('#table'));
-      alert('TODO deleted successfully!');
       return true;
     }
   }
@@ -75,15 +75,16 @@ export class TodoManager {
       html +=
         '<tr>' +
         `<td>${todo.title}</td>` +
-        `<td>${todo.completed}</td>` +
-        `<td><button class="edit-btn btn btn-light" data-id="${todo.id}">Edit</button></td>` +
-        `<td><button class="delete-btn btn btn-warning" data-id="${todo.id}">Delete</button></td>` +
+        `<td><input class="js-check form-check-input" type="checkbox" data-id="${todo.id}" checked="${todo.completed}"></button></td>` +
+        `<td><button class="js-edit btn btn-light" data-id="${todo.id}">Edit</button></td>` +
+        `<td><button class="js-delete btn btn-warning" data-id="${todo.id}">Delete</button></td>` +
         '</tr>';
     }
+
     html += '</tbody>';
     table.innerHTML = html;
 
-    document.querySelectorAll('.delete-btn').forEach((button) => {
+    document.querySelectorAll('.js-delete').forEach((button) => {
       button.addEventListener('click', (event) => {
         const target = event.target as HTMLElement;
         const id = target.dataset.id;
@@ -93,7 +94,7 @@ export class TodoManager {
       });
     });
 
-    document.querySelectorAll('.edit-btn').forEach((button) => {
+    document.querySelectorAll('.js-edit').forEach((button) => {
       button.addEventListener('click', (event) => {
         const target = event.target as HTMLElement;
         const id = target.dataset.id;
