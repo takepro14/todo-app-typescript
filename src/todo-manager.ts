@@ -58,7 +58,6 @@ export class TodoManager {
       localStorage.setItem('todo', JSON.stringify(this.todos));
       this.load();
       this.list(document.querySelector('#table'));
-      alert('TODO updated successfully!');
     }
   }
 
