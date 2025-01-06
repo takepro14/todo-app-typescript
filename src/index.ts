@@ -5,19 +5,16 @@ let message: HTMLInputElement;
 
 const manager = new TodoManager();
 
-function loadTodo() {
+function createTodo() {
+  manager.create(message.value);
   manager.load();
   manager.list(table);
 }
 
-function createTodo() {
-  manager.create(message.value);
-  loadTodo();
-}
-
 function clearTodo() {
   manager.clear();
-  loadTodo();
+  manager.load();
+  manager.list(table);
 }
 
 window.addEventListener('load', () => {
@@ -25,5 +22,6 @@ window.addEventListener('load', () => {
   message = document.querySelector('#message');
   document.querySelector('#add').addEventListener('click', createTodo);
   document.querySelector('#clear').addEventListener('click', clearTodo);
-  loadTodo();
+  manager.load();
+  manager.list(table);
 });
